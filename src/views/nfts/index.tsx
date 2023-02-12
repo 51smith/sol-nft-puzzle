@@ -1,19 +1,87 @@
+import React, {FC, useEffect} from "react";
+import {
+    JsonMetadata,
+    LoadMetadataInput,
+    Metadata,
+    Metaplex,
+    Mint,
+    Nft,
+    NftEdition,
+    Pda,
+    Sft
+} from "@metaplex-foundation/js";
+import {clusterApiUrl, Connection, PublicKey} from "@solana/web3.js";
+import {useState} from "react";
+import {useWallet} from "@solana/wallet-adapter-react";
+import { notify } from "../../utils/notifications";
+import NFTCard from "../../components/nftcard";
+const connection = new Connection(clusterApiUrl("devnet"));
+const mx = Metaplex.make(connection);
 
-import { FC } from "react";
+export const NFTSView: FC = ({}) => {
 
-export const NFTView: FC = ({ }) => {
+    const wallet = useWallet();
+    const tmpNftArray: Nft[] = [];
+    const [allNFTs, setAllNFTs] = useState(tmpNftArray);
 
-  return (
-<div className="md:hero mx-auto p-4">
-      <div className="md:hero-content flex flex-col">
-        <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          NFT view
-        </h1>
-        {/* CONTENT GOES HERE */}
-        <div className="text-center">
+    const fetchAllNFTs = async (publicKey) => {
 
+        try {
+            if (!publicKey) return;
+            return await mx.nfts().findAllByOwner({owner: publicKey});
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const fetchNFT = async (metadata: Metadata | Nft | Sft): Promise<Nft> => {
+        return await mx.nfts().load({metadata} as LoadMetadataInput) as
+            Omit<Metadata<JsonMetadata>, "model" | "address" | "mintAddress"> &
+            { readonly model: "nft"; readonly address: PublicKey; readonly metadataAddress: Pda; readonly mint: Mint; readonly edition: NftEdition };
+    }
+
+    useEffect(() => {
+        if(wallet.publicKey == null) {
+            return;
+        }
+        try {
+            fetchAllNFTs(wallet.publicKey).then((allMetadata) => {
+                setAllNFTs([]);//clear previous NFTs, in case of fast reload / wallet switch etc..
+                allMetadata.forEach((metadata) => {
+                    fetchNFT(metadata).then((nft) => {
+                        setAllNFTs((allNFTs) => [...allNFTs, nft]);
+                    });
+                });
+            });
+        } catch (e) {
+            notify({ type: 'error', message: `Nft loading failed!`, description: e?.message });
+        }
+    }, [wallet.publicKey]);
+
+    if (!wallet.publicKey) {
+       console.log("No wallet connected");
+    }
+
+
+    return (
+        <div className="md:hero mx-auto p-4">
+            <div className="md:hero-content flex flex-col">
+                <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+                    NFT view
+                </h1>
+                {/* CONTENT GOES HERE */}
+                <div className="text-center">
+                    <div>
+                        <div >
+                            <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+                                All your NFT&amp;apos s are belong to us:</h1>
+                            <div style={{display: 'flex', flexDirection: 'row', alignItems:'center', alignSelf:'center' }}>
+                                {allNFTs.map((nft) => ( <NFTCard key={nft.address} nft={nft}></NFTCard> ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };

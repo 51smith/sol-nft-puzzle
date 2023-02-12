@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { NFTView } from "../views";
+import { NFTSView } from "../views";
 
-const Basics: NextPage = (props) => {
+const Basics: NextPage = () => {
     return (
         <div>
             <Head>
@@ -12,7 +12,7 @@ const Basics: NextPage = (props) => {
                     content="Basic Functionality"
                 />
             </Head>
-            <NFTView />
+            <NFTSView />
         </div>
     );
 };
