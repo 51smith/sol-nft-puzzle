@@ -1,8 +1,6 @@
 import Card from 'react-bootstrap/Card';
 
-import {
-    Nft,
-} from "@metaplex-foundation/js";
+import {Nft,} from "@metaplex-foundation/js";
 import React from 'react';
 import Link from "next/link";
 
@@ -20,7 +18,7 @@ export default function Nftcard(props: { key: any, nft: Nft }) {
                 </Card.Text>
 
                 <Link href={/nfts/ + nft.address.toBase58()}> View </Link>
-
+                <Link href={/puzzle/ + nft.address.toBase58()}> Puzzle </Link>
             </Card.Body>
         </Card>
     );
