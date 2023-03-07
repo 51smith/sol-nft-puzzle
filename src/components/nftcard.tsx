@@ -19,6 +19,7 @@ export default function Nftcard(props: { key: any, nft: Nft }) {
 
                 <Link href={/nfts/ + nft.address.toBase58()}> View </Link>
                 <Link href={/puzzle/ + nft.address.toBase58()}> Puzzle </Link>
+                <Link href={/new_background/ + nft.address.toBase58()}> New Background </Link>
             </Card.Body>
         </Card>
     );
