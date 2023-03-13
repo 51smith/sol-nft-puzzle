@@ -16,11 +16,13 @@ export const NFTPuzzleView: FC = ({}) => {
 
     const address: PublicKey = router.query.id ? new PublicKey(router.query.id) : null;
     const [nft, setNft] = useState(null);
+    const [image, setImage] = useState(null);
 
     const fetchNft = async () => {
         //TODO, check ownership?
         const asset = await mx.nfts().findByMint({mintAddress: new PublicKey(address)});
         setNft(asset);
+        setImage(asset.json.image);
     };
 
     useEffect(() => {
@@ -57,6 +59,7 @@ export const NFTPuzzleView: FC = ({}) => {
                                     <h1>{nft.name}</h1>
                                     <NFTPuzzleBoard nft={nft}/>
                                 </div>
+
                             )}
                         </div>
                     </div>

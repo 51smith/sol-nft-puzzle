@@ -5,11 +5,12 @@ import {useWallet} from "@solana/wallet-adapter-react";
 import {notify} from "../../utils/notifications";
 import {useRouter} from "next/router";
 import Image from 'next/image'
-import axios from 'axios';
+import useBackgrounds from "../../hooks/useBackgrounds";
+import apiClient from "../../utils/http-common";
+import * as process from "process";
 
 const connection = new Connection(clusterApiUrl("devnet"));
 const mx = Metaplex.make(connection);
-
 
 //const cors = require("cors");
 
@@ -17,13 +18,18 @@ export const NFTViewNewBackground: FC = ({}) => {
 
     const wallet = useWallet();
     const router = useRouter();
+    const {backgrounds, isLoading, isError} = useBackgrounds();
+    const getRandomBackground = () => {
+        return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    }
 
     const address: PublicKey = router.query.id ? new PublicKey(router.query.id) : null;
     const [image, setImage] = useState(null);
     const [nft, setNft] = useState(null);
+
+
     const fetchNft = async () => {
         const asset = await mx.nfts().findByMint({mintAddress: new PublicKey(address)});
-        console.log();
         setImage(asset.json.image);
         setNft(asset);
     };
@@ -45,12 +51,14 @@ export const NFTViewNewBackground: FC = ({}) => {
 
 
     function createNewBackground(image) {
-        const newBackground = {url: image, background: true};
-        axios.post('http://127.0.0.1:8000/create_new_nft_image', newBackground)
+        const newBackground = {url: image, background: getRandomBackground()};
+        console.log(newBackground);
+        apiClient.post('create_new_nft_image', newBackground)
             .then(response => {
                     try {
                         console.log(response.data.path);
-                        setImage("http://127.0.0.1:8000" + response.data.path);
+                        console.log(process.env);
+                        setImage("http://127.0.0.1:8000/" + response.data.path);
                     } catch (e) {
                         console.log(e)
                     }
@@ -83,10 +91,12 @@ export const NFTViewNewBackground: FC = ({}) => {
                                         width={512}
                                         height={512}
                                     />
-                                    <button className="btn btn-primary" onClick={() => {
-                                        createNewBackground(nft.json.image)
-                                    }}>New NFT Background
-                                    </button>
+                                    <div>
+                                        <button className="btn btn-primary" onClick={() => {
+                                            createNewBackground(nft.json.image)
+                                        }}>New NFT Background
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>

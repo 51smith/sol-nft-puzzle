@@ -4,3 +4,4 @@ export {NFTView} from "./nft";
 export {NFTViewNewBackground} from "./new_background";
 export {NFTSView} from "./nfts";
 export {NFTPuzzleView} from "./puzzle";
+export {MetaplexView} from "./metaplex";
