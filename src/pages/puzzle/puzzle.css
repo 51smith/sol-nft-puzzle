@@ -27,6 +27,7 @@ h1 {
 
 .board {
     position: relative;
+    display: inline-block;
     padding: 0;
 }
 

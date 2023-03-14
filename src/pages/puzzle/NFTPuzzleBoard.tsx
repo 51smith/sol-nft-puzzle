@@ -3,9 +3,9 @@ import Tile from "./Tile";
 import {BOARD_SIZE, GRID_SIZE, TILE_COUNT} from "./constants"
 import {canSwap, isSolved, shuffle, swap} from "./puzzlehelpers"
 import {Nft} from "@metaplex-foundation/js";
-import Image from 'next/image'
 import useBackgrounds from "../../hooks/useBackgrounds";
 import apiClient from "../../utils/http-common";
+import * as process from "process";
 
 
 export default function NFTPuzzleBoard(props: { nft: Nft }) {
@@ -52,9 +52,7 @@ export default function NFTPuzzleBoard(props: { nft: Nft }) {
         apiClient.post('create_new_nft_image', newBackground)
             .then(response => {
                     try {
-                        console.log(response.data.path);
-                        console.log(process.env);
-                        setImage("http://127.0.0.1:8000/" + response.data.path);
+                        setImage(process.env.NEXT_PUBLIC_BG_SERVER + response.data.path);
                     } catch (e) {
                         console.log(e)
                     }
@@ -75,21 +73,11 @@ export default function NFTPuzzleBoard(props: { nft: Nft }) {
 
     return (
 
-        <div className={"content-center m-2"}>
-            <div className={" border-l-orange-100"}>
-                {hasWon && isStarted && <div>Puzzle solved 🧠 🎉</div>}
-
-                {!isStarted ?
-                    (<button onClick={() => handleStartClick()}>Start game</button>) :
-                    (<button onClick={() => handleShuffleClick()}>Restart game</button>)}
-                <button onClick={() => createNewBackground()}>New Background</button>
-                <div><Image src={image} alt={nft.name} width={200} height={200}/></div>
-
-            </div>
+        <div className={"content-center flex-col m-2"}>
 
 
-            <div>
-                <ul style={style} className="board">
+            <div className="board content-center">
+                <ul style={style} className="board content-center">
                     {tiles.map((tile, index) => (
                         <Tile
                             key={tile}
@@ -102,9 +90,23 @@ export default function NFTPuzzleBoard(props: { nft: Nft }) {
                         />
                     ))}
                 </ul>
-                <div>Click on a tile to move it</div>
             </div>
+            <div className="flex flex-col justify-center">
+                {hasWon && isStarted && <div>Puzzle solved 🧠 🎉</div>}
 
+                {!isStarted ?
+                    (<button
+                        className={"content-center flex-col m-2 btn btn-primary w-full animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 "}
+                        onClick={() => handleStartClick()}>Start game</button>) :
+                    (<button
+                        className={"content-center flex-col m-2 btn btn-primary w-full animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 "}
+                        onClick={() => handleShuffleClick()}>Restart game</button>)}
+                <button
+                    className={"content-center flex-col m-2 btn btn-primary w-full animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 "}
+                    onClick={() => createNewBackground()}>New Background
+                </button>
+
+            </div>
         </div>
     );
 }

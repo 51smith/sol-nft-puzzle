@@ -8,8 +8,8 @@ const NFTList: NextPage = () => {
             <Head>
                 <title>Solana Scaffold</title>
                 <meta
-                    name="description"
-                    content="Basic Functionality"
+                    name="Customize your NFT"
+                    content="Solana NFT Puzzle game"
                 />
             </Head>
             <NFTSView/>

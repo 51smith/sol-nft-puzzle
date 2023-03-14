@@ -57,7 +57,7 @@ export const NFTView: FC = ({}) => {
                     <div>
                         <div>
                             <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                                All your NFT&apos;s are belong to us:</h1>
+                                Sol NFT Puzzle: Show NFT</h1>
                             {nft && (
                                 <div className="nftPreview">
                                     <h1>{nft.name}</h1>

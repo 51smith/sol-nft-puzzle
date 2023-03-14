@@ -28,6 +28,7 @@ export const NFTViewNewBackground: FC = ({}) => {
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState(null);
     const [nft, setNft] = useState(null);
+    const [nftName, setNftName] = useState("NFT");
     const [isNewBackground, setIsNewBackground] = useState(false);
 
 
@@ -35,6 +36,7 @@ export const NFTViewNewBackground: FC = ({}) => {
         const asset = await mx.nfts().findByMint({mintAddress: new PublicKey(address)});
         setImage(asset.json.image);
         setNft(asset);
+        setNftName(asset.name);
     };
 
     useEffect(() => {
@@ -87,18 +89,14 @@ export const NFTViewNewBackground: FC = ({}) => {
     return (
         <div className="md:hero mx-auto p-4">
             <div className="md:hero-content flex flex-col">
-                <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                    NFT view
-                </h1>
                 {/* CONTENT GOES HERE */}
                 <div className="text-center">
                     <div>
                         <div>
                             <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                                All your NFT&apos;s are belong to us:</h1>
+                                Customize your {nftName} </h1>
                             {nft && (
                                 <div className="nftPreview">
-                                    <h1>{nft.name}</h1>
                                     <Image
                                         src={image}
                                         alt={nft.description}
@@ -106,15 +104,19 @@ export const NFTViewNewBackground: FC = ({}) => {
                                         height={512}
                                     />
                                     <div>
-                                        <button className="btn btn-primary" onClick={() => {
-                                            createNewBackground(nft.json.image)
-                                        }}>New NFT Background
+                                        <button
+                                            className="content-center flex-col m-2 btn btn-primary w-full animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500"
+                                            onClick={() => {
+                                                createNewBackground(nft.json.image)
+                                            }}>New NFT Background
                                         </button>
                                     </div>
                                     {isNewBackground && (
-                                        <div className=" btn btn-primary "><Link
-                                            href={/metaplex/ + nft.address.toBase58() + "?img=" + imageName}> Create
-                                            NFT </Link></div>
+                                        <div
+                                            className="content-center flex-col m-2 btn btn-primary w-full animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500">
+                                            <Link
+                                                href={/metaplex/ + nft.address.toBase58() + "?img=" + imageName}> Create
+                                                NFT </Link></div>
                                     )}
                                 </div>
                             )}

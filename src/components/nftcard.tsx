@@ -17,12 +17,14 @@ export default function Nftcard(props: { key: any, nft: Nft }) {
                     {nft.json.description}
                 </Card.Text>
 
-                <div className="font-semibold m-1 rounded-md bg-white text-black"><Link
-                    href={/nfts/ + nft.address.toBase58()}> View </Link></div>
-                <div className="font-semibold m-1 rounded-md bg-white text-black"><Link
-                    href={/puzzle/ + nft.address.toBase58()}> Puzzle </Link></div>
-                <div className="font-semibold m-1 rounded-md bg-white text-black"><Link
-                    href={/new_background/ + nft.address.toBase58()}> New Background </Link></div>
+                <div
+                    className="content-center flex-col m-2 btn btn-primary w-full bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500">
+                    <Link
+                        href={/puzzle/ + nft.address.toBase58()}> Puzzle </Link></div>
+                <div
+                    className="content-center flex-col m-2 btn btn-primary w-full bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500">
+                    <Link
+                        href={/new_background/ + nft.address.toBase58()}> Customize </Link></div>
             </Card.Body>
         </Card>
     );
