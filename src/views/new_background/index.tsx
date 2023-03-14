@@ -8,6 +8,7 @@ import Image from 'next/image'
 import useBackgrounds from "../../hooks/useBackgrounds";
 import apiClient from "../../utils/http-common";
 import * as process from "process";
+import Link from "next/link";
 
 const connection = new Connection(clusterApiUrl("devnet"));
 const mx = Metaplex.make(connection);
@@ -25,7 +26,9 @@ export const NFTViewNewBackground: FC = ({}) => {
 
     const address: PublicKey = router.query.id ? new PublicKey(router.query.id) : null;
     const [image, setImage] = useState(null);
+    const [imageName, setImageName] = useState(null);
     const [nft, setNft] = useState(null);
+    const [isNewBackground, setIsNewBackground] = useState(false);
 
 
     const fetchNft = async () => {
@@ -59,6 +62,8 @@ export const NFTViewNewBackground: FC = ({}) => {
                         console.log(response.data.path);
                         console.log(process.env);
                         setImage("http://127.0.0.1:8000/" + response.data.path);
+                        setImageName(response.data.path);
+                        setIsNewBackground(true);
                     } catch (e) {
                         console.log(e)
                     }
@@ -97,6 +102,11 @@ export const NFTViewNewBackground: FC = ({}) => {
                                         }}>New NFT Background
                                         </button>
                                     </div>
+                                    {isNewBackground && (
+                                        <div className=" btn btn-primary "><Link
+                                            href={/metaplex/ + nft.address.toBase58() + "?img=" + imageName}> Create
+                                            NFT </Link></div>
+                                    )}
                                 </div>
                             )}
                         </div>
