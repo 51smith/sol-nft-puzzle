@@ -49,7 +49,15 @@ export const NFTViewNewBackground: FC = ({}) => {
     }, [wallet.publicKey]);
 
     if (!wallet.publicKey) {
-        console.log("No wallet connected");
+        return (
+            <div className="mx-auto p-4 md:hero">
+                <div className="flex flex-col md:hero-content">
+                    <h1 className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text text-center text-5xl font-bold text-transparent">
+                        Wallet Not Connected
+                    </h1>
+                </div>
+            </div>
+        );
     }
 
 
@@ -60,8 +68,9 @@ export const NFTViewNewBackground: FC = ({}) => {
             .then(response => {
                     try {
                         console.log(response.data.path);
-                        console.log(process.env);
-                        setImage("http://127.0.0.1:8000/" + response.data.path);
+                        console.log(process.env.NEXT_PUBLIC_BG_SERVER);
+                        setImage(process.env.NEXT_PUBLIC_BG_SERVER + response.data.path);
+                        console.log(image);
                         setImageName(response.data.path);
                         setIsNewBackground(true);
                     } catch (e) {
@@ -86,7 +95,7 @@ export const NFTViewNewBackground: FC = ({}) => {
                     <div>
                         <div>
                             <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                                All your NFT&amp;apos s are belong to us:</h1>
+                                All your NFT&apos;s are belong to us:</h1>
                             {nft && (
                                 <div className="nftPreview">
                                     <h1>{nft.name}</h1>

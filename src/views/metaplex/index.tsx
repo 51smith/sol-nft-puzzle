@@ -53,7 +53,7 @@ export const MetaplexView: FC = ({}) => {
     async function createNft(data: FormProps) {
         try {
             const apiClient = axios.create({
-                baseURL: "http://127.0.0.1:8000/",
+                baseURL: process.env.NEXT_PUBLIC_BG_SERVER,
                 responseType: "blob",
             });
             apiClient.get(imageName)

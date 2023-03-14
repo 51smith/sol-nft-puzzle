@@ -39,7 +39,15 @@ export const NFTPuzzleView: FC = ({}) => {
     }, [wallet.publicKey]);
 
     if (!wallet.publicKey) {
-        console.log("No wallet connected");
+        return (
+            <div className="mx-auto p-4 md:hero">
+                <div className="flex flex-col md:hero-content">
+                    <h1 className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text text-center text-5xl font-bold text-transparent">
+                        Wallet Not Connected
+                    </h1>
+                </div>
+            </div>
+        );
     }
 
 
@@ -53,7 +61,7 @@ export const NFTPuzzleView: FC = ({}) => {
                     <div>
                         <div>
                             <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                                All your NFT&amp;apos s are belong to us:</h1>
+                                All your NFT&apos;s are belong to us:</h1>
                             {nft && (
                                 <div className="nft Puzzle">
                                     <h1>{nft.name}</h1>

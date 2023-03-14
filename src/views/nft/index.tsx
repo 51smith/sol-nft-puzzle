@@ -1,7 +1,6 @@
-import React, {FC, useEffect} from "react";
-import { Metaplex } from "@metaplex-foundation/js";
+import React, {FC, useEffect, useState} from "react";
+import {Metaplex} from "@metaplex-foundation/js";
 import {clusterApiUrl, Connection, PublicKey} from "@solana/web3.js";
-import {useState} from "react";
 import {useWallet} from "@solana/wallet-adapter-react";
 import {notify} from "../../utils/notifications";
 import {useRouter} from "next/router";
@@ -35,7 +34,15 @@ export const NFTView: FC = ({}) => {
     }, [wallet.publicKey]);
 
     if (!wallet.publicKey) {
-        console.log("No wallet connected");
+        return (
+            <div className="mx-auto p-4 md:hero">
+                <div className="flex flex-col md:hero-content">
+                    <h1 className="bg-gradient-to-tr from-[#9945FF] to-[#14F195] bg-clip-text text-center text-5xl font-bold text-transparent">
+                        Wallet Not Connected
+                    </h1>
+                </div>
+            </div>
+        );
     }
 
 
@@ -50,7 +57,7 @@ export const NFTView: FC = ({}) => {
                     <div>
                         <div>
                             <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-                                All your NFT&amp;apos s are belong to us:</h1>
+                                All your NFT&apos;s are belong to us:</h1>
                             {nft && (
                                 <div className="nftPreview">
                                     <h1>{nft.name}</h1>
