@@ -1,9 +1,7 @@
-#TODO
-
-#Google doc presentation
+# Google doc presentation
 https://docs.google.com/presentation/d/1leUNxlpOWYtTc2gyHd03vx-Ga6INAd9RoflXVoLIuwk/edit?usp=sharing
 
-#Setup:
+## Setup:
 
 1. clone & install BGremoverFastAPI project from here: https://github.com/51smith/removeBGfastApi
 2. Follow the instructions in the README.md file to setup the project and start the server
@@ -17,7 +15,7 @@ https://docs.google.com/presentation/d/1leUNxlpOWYtTc2gyHd03vx-Ga6INAd9RoflXVoLI
 10. have some fun, make some profit
 11. Enjoy World Peace
 
-#Contributing projects:
+## Contributing projects:
 This project has been bootstrapped with the DAPP scaffold from Solana Labs.
 https://github.com/solana-labs/dapp-scaffold
 
